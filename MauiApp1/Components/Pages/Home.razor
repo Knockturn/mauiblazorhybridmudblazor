@@ -1,5 +1,13 @@
 ﻿@page "/"
+@inject NavigationManager NavigationManager
+<h1>New Entry</h1>
 
-<h1>Hello, world!</h1>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" @onclick="goToUrl">GoTo: Quill JS</MudButton>
 
-Welcome to your new app.
+@code {
+    private void goToUrl()
+    {
+        NavigationManager.NavigateTo("https://quilljs.com/docs/quickstart/");
+    }
+}
+```
