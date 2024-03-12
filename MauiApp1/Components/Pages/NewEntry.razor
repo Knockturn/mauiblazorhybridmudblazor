@@ -1,0 +1,30 @@
+﻿@page "/NewEntry"
+@inject NavigationManager NavigationManager 
+ 
+<h3>NewEntry</h3>
+<MudForm>
+    <MudTextField @bind-Value="fileName" Label="Filename" Variant="Variant.Filled"></MudTextField>
+    <MudTextField T="string" Label="AutoGrow" Variant="Variant.Text" Text="@sampleText" AutoGrow HelperText="This field grows when you enter new lines" />
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Class="ml-auto" OnClick="@(() => HandleSubmit())">Submit</MudButton>
+</MudForm>
+@code {
+    public string fileName { get; set; }
+    string sampleText;
+    
+    public class Entry
+    {
+        public string FileName { get; set; }
+        public string Text { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        fileName = new DateTime().ToLocalTime().ToShortDateString();
+        sampleText = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.";
+    }
+    private void HandleSubmit()
+    {
+        // go to home
+        NavigationManager.NavigateTo("/");
+    }
+}
