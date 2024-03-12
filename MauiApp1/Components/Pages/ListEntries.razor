@@ -1,6 +1,31 @@
 ﻿@page "/ListEntries"
+
 <h3>ListEntries</h3>
 
+<ul>
+    @foreach (var entry in entries)
+    {
+        <li>@entry["name"] - @entry["message"]</li>
+    }
+
 @code {
-    Entry entry = new Entry();
+    private FirestoreDb db;
+    private List<Dictionary<string, object>> entries = new List<Dictionary<string, object>>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        db = FirestoreDb.Create("860467853131"); // replace "your-project-id" with your actual project id
+        Query allEntriesQuery = db.Collection("entries");
+        QuerySnapshot allEntriesQuerySnapshot = await allEntriesQuery.GetSnapshotAsync();
+
+        foreach (DocumentSnapshot documentSnapshot in allEntriesQuerySnapshot.Documents)
+        {
+            if (documentSnapshot.Exists)
+            {
+                Dictionary<string, object> entry = documentSnapshot.ToDictionary();
+                entries.Add(entry);
+            }
+        }
+    }
+    
 }
